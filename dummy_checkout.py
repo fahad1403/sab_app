@@ -523,7 +523,7 @@ def checkout_page():
             }
             /* Style for the image */
             .header-img {
-                width: 400px;
+                width: 360px;
                 margin-top: -110px;
                 margin-left: -20px;
                 margin-right: 0px;
