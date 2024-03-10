@@ -868,6 +868,12 @@ def add_website_and_bank_account():
         color:#d3d3d3;
         width:120px;
     }
+    .st-emotion-cache-1uixxvy{
+        margin-top:15px;
+    }
+    .st-emotion-cache-vskyf7{
+        margin-top:7px;
+    }
     </style>
     """
 
