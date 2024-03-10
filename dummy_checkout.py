@@ -171,7 +171,7 @@ def signup_page():
                         font-size: 30px;
                     }
                     input[type=text], input[type=password] {
-                        width: 90%;
+                        width: 100%;
                         padding: 15px;
                         margin: 10px 0;
                         display: inline-block;
@@ -327,7 +327,7 @@ def docunent_upload_page():
                         font-size: 30px;
                     }
                     input[type=text], input[type=password] {
-                        width: 125%;
+                        width: 100%;
                         padding: 15px;
                         margin: 10px 0;
                         display: inline-block;
@@ -734,7 +734,7 @@ def add_website_and_bank_account():
                         font-size: 30px;
                     }
                     input[type=text], input[type=password] {
-                        width: 125%;
+                        width: 100%;
                         padding: 10px;
                         margin: 10px 0;
                         display: inline-block;
@@ -969,7 +969,7 @@ def nafath_check():
                         font-size: 27px;
                     }
                     input[type=text], input[type=password] {
-                        width: 125%;
+                        width: 100%;
                         padding: 10px;
                         margin: 10px 0;
                         display: inline-block;
@@ -1159,7 +1159,7 @@ def show_split():
                         font-size: 30px;
                     }
                     input[type=text], input[type=password] {
-                        width: 125%;
+                        width: 100%;
                         padding: 15px;
                         margin: 10px 0;
                         display: inline-block;
@@ -1437,7 +1437,7 @@ def add_repayment():
                         font-size: 30px;
                     }
                     input[type=text], input[type=password] {
-                        width: 125%;
+                        width: 100%;
                         padding: 15px;
                         margin: 10px 0;
                         display: inline-block;
