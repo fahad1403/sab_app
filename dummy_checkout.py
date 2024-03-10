@@ -389,7 +389,7 @@ def docunent_upload_page():
         position:absolute;
         display: inline;
         margin-top: -50px;
-        margin-left:260px;
+        margin-left:180px;
         border: 0.5px solid red;
         border-radius: 100px;
         color:#d3d3d3;
@@ -825,7 +825,7 @@ def add_website_and_bank_account():
     google_reviews_list.extend([''] * (max_len - len(google_reviews_list)))
 
     scrapes['Twitter'] = '\n'.join(tweet_list)
-    scrapes['Instagram'] = '\n'.jlind(ig_post_list)
+    scrapes['Instagram'] = '\n'.join(ig_post_list)
     scrapes['Google'] = ''
     st.session_state['gsheet_data']['Social_Check'] = json.dumps(scrapes)
 
@@ -858,7 +858,7 @@ def add_website_and_bank_account():
         position:absolute;
         display: inline;
         margin-top: 10px;
-        margin-left:240px;
+        margin-left:180px;
         margin-right:50px;
         border: 0.5px solid red;
         border-radius: 100px;
@@ -1046,7 +1046,7 @@ def nafath_check():
         position:absolute;
         display: inline;
         margin-top: 10px;
-        margin-left:240px;
+        margin-left:180px;
         margin-right:50px;
         border: 0.5px solid red;
         border-radius: 100px;
