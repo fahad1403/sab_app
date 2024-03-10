@@ -842,7 +842,7 @@ def add_website_and_bank_account():
     }
 
     .st-emotion-cache-16idsys p{
-        margin-left:15px;
+        margin-left:18px;
         font-size: 18px;
     }
 
