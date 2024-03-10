@@ -1,0 +1,13 @@
+{
+  "type": "service_account",
+  "project_id": "decisive-studio-400406",
+  "private_key_id": "05465d5cb47f44b19289639572ccb2c528c210e0",
+  "private_key": "-----BEGIN PRIVATE KEY-----\nMIIEvAIBADANBgkqhkiG9w0BAQEFAASCBKYwggSiAgEAAoIBAQCoIEZjL1YivgJ9\nFh7ZhNlS0kurogSITLGk+LDA/MoDTDFH6b2BmH8W1UD/8hDX4fCvDd0U437B8M1x\n3B+O4ssaODiM9yFYH6DFrNi32cafU9IWqLsM8lDAv6vPDpt+z7BBUd0QH/iydyjT\n9JCmKvABSJ5Sns+XuolgcV28M+j6v/wdPHRJf9QfeL3ea74g5Buhc4mTVedrELGF\ntF7Ckw4GOH2iGG7CJXeMhBSsZTlis62Nc6JfwS5X0RczME4O2kWnEWMMhLdUz8Bb\nu66A0Xpv4q0Nqre21o3eAf8vhmHwNZNE2C0qSKKiNxG5gkEHMW/7rjopZW00pnK0\nF9EEnoYXAgMBAAECggEADOLgZ5TGvjCgdzRIAWBt2dZq3LO1M487+crinVV4KbWK\n0hoSdN7v4Bul+O11qLOqziK6ucb6vbm2aCOOOwDwvp3liQ8eEVI8m+TKKEP7CyuS\nXuXoOa9O94nEDOxFMyc5uV/2w4LNKJH6i/hi/TbYS3jkmFePeMU1kgdOacZJdVfm\n1wEdizrXyQqebxFpEiSUWyI0XkYrhwNVRHF9u61hmH6+N1uv2UqYGOsHx60o9QoB\nuxszktYx4bxQiwu4jLFbBrTQ6ZhRSEridBbfVAjMhbrW+YJIgx76Xqh0z37SHIB+\nmPBbFRIS+UsDJhyasunwni2wT1zSDHVw83KZbcliaQKBgQDfxksFFKt26kO5/vQV\nmPXNyHRqk8MaKpcq57yKO4Lt9vQjknxxeLx3tqJYH6M7FVk5BN6hPMEM4BXzAOwI\nCdZNBXbhuh55SYHVEtXdPba3qWK9McsY4VxaFYKPJPHWRTz4Ti/JEajfNdk1QLA/\n9Jf0eSsPf88iUsQXqqiFltcjrwKBgQDAVm+M70czr8nfk744HnQXwXCO3XfaHGQS\noE7IVISbMdQnDtdgku/a/OwOG2IbRgIE5mBBlB49Px39FIhmGxIaP01h3V26qYWM\n87QZDtfVekglhea8wSszREFkCIbJ08vYckGLel+QSa+6qNucrnCiIDrbphs8fOIA\n4y8Nb+UWGQKBgHai0TkTWUhFMLzWHx+oJYEA6j9qsUAZHmW/0CRVIrf4ejy1t8YM\n5ZZuPCmONGLpkZD6NPG0nQCveNOJRJmKZZQV9o37t5ZD01JclwehZVJ/ufpmAK/j\nIqwbxUkQpCoeMRHPmeP2udoE2XAzKH3vtfQFnT+tWepviMinUIrqioq/AoGAfx1h\nEgLdyuImCBZLxCkUTtLwgesKl+LlnI3II4wAK9VtwfaED3ZtAQzhMZ2VZDMLiJN9\nEDpFFfNN7YIRd3Hyr9ggW0qC9Keu9O3nnBv8N0FexzXMvfjohTRaBzO/aUoJ0d4J\nRZY17FVWx4VrxwxesjeczqfkHkDm2PFMmpPWEpkCgYAMJ5yC+kkkMzr/4yYru73K\nujzpXGZgR3CWw1lBAfIykqtMwl4mMBIjJrI1a3YQbuxDIwxB6yOpR/Kl5hIVLe6s\nhq5lXT3KLStoAcPxLyoXMB3LjU+dKR6LpADh9h3uNROyafJgPyr4hRnfRNAPq2/s\ngTar9Bu6dVtBAFy2f4DmRg==\n-----END PRIVATE KEY-----\n",
+  "client_email": "translate-cress@decisive-studio-400406.iam.gserviceaccount.com",
+  "client_id": "109143797797061136415",
+  "auth_uri": "https://accounts.google.com/o/oauth2/auth",
+  "token_uri": "https://oauth2.googleapis.com/token",
+  "auth_provider_x509_cert_url": "https://www.googleapis.com/oauth2/v1/certs",
+  "client_x509_cert_url": "https://www.googleapis.com/robot/v1/metadata/x509/translate-cress%40decisive-studio-400406.iam.gserviceaccount.com",
+  "universe_domain": "googleapis.com"
+}
