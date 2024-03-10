@@ -453,8 +453,6 @@ def docunent_upload_page():
 
     gosi_doc_file = st.file_uploader("Gosi Document", type=["pdf"])
     if gosi_doc_file:
-        st.session_state.checkout_step = 5
-
         # pdf_text = extract_text_from_pdf(gosi_doc_file)
         # ocr_result = extract_business_gosi_data(pdf_text)
         ocr_result = {"gosi_issue_date": "08/06/2020", "gosi_expiry_date": "07/07/2020", "cr_number": "1010252763", "company_name": "Equitive"}
@@ -793,7 +791,7 @@ def add_website_and_bank_account():
     client = gspread.authorize(creds)
     sheet = client.open("streamlit_data").worksheet('similar_web_data')
     save_data_to_sheet(company_url, timestamp, traffic_data, duration_data, sheet)
-
+    
     scrapes = {}
     sentiments = {}
 
@@ -836,7 +834,7 @@ def add_website_and_bank_account():
 
     sentiments = {"Twitter": 0.70, "Instagram": 0.80, "Google": 0.60, "Average": 0.70}
     st.session_state['gsheet_data']['Sentiments'] = json.dumps(sentiments)
-
+    # st.success("Completed ✅")
     custom_css = """
     <style>
     .st-emotion-cache-1gulkj5{
@@ -1024,7 +1022,7 @@ def nafath_check():
     company_address = st.text_input("Company Adress: ", placeholder="Eg. Khaled bin waleed street, Jeddah")
     address_dict = {"user_address": "al salam tecom tower, al sufouh, dubai internet city", "google_address": "Al Salam Tecom Tower - Al Sufouh - Dubai Internet City - Dubai - United Arab Emirates"}
     st.session_state['gsheet_data']['Address'] = json.dumps(address_dict)
-
+    
     custom_css = """
     <style>
     .st-emotion-cache-1gulkj5{
@@ -1083,7 +1081,7 @@ def nafath_check():
 
     st.markdown("<hr style='border: 0.5px solid lightgray; margin-top:5px; margin-bottom:5px;'>", unsafe_allow_html=True)  # Add line break
 
-    id_data_file = st.file_uploader("Upload Iqama ID", type=["pdf"])
+    id_data_file = st.file_uploader("Upload Iqama ID", type=["jpg", "jpeg", "png"])
     if id_data_file:
         image_id_urls = []
 
@@ -1096,8 +1094,9 @@ def nafath_check():
 
         id_data = {"Name": "M ZOUHER JADID", "DOB": "1985/10/24", "ID Number": "2325873335"}
 
-        st.session_state['gsheet_data']['ID_Data'] = id_data
+        st.session_state['gsheet_data']['ID_Data'] = json.dumps(id_data)
         st.session_state['gsheet_data']['ID_Image'] = id_image_combined
+        st.success("Completed ✅")
     ###################
 
     st.markdown("""
