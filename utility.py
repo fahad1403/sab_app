@@ -67,9 +67,13 @@ def translate_arabic_to_english(arabic_text):
         print(e)
 
 def gcloud_translate(text, src='ar', dest='en'):
-    translate_client = translate.Client.from_service_account_json('translate_creds.json')
-    result = translate_client.translate(text, source_language=src, target_language=dest)
-    return result['translatedText']
+    try:
+        translator = Translator()
+        translated_text = translator.translate(text, src='ar', dest='en').text
+        return translated_text
+    
+    except Exception as e:
+        print(e)
 
 def get_response_from_wathq(cr_number):
     url = f"https://api.wathq.sa/v5/commercialregistration/fullinfo/{cr_number}"

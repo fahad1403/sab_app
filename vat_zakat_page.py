@@ -27,6 +27,7 @@ def eastern_arabic_to_english(eastern_numeral):
 
 def extract_vat_zakat_details(text):
     ## VAT/ZAKAT FORMAT 1
+    print(f"\n\nDATA: {text}\n\n")
     vat_registration_number = re.search(r'\b\d{15}\b', text)
     cr_number = re.findall(r'\b\d{10}\b', text)
     tax_period = re.search(r'\b(quarterly|annually|monthly)\b', text, re.IGNORECASE)

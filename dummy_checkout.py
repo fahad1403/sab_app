@@ -7,6 +7,7 @@ import json
 from vat_zakat_page import extract_vat_zakat_details
 from gosi_extraction import *
 from utility import *
+from oauth2client.service_account import ServiceAccountCredentials
 import pandas as pd
 
 st.set_page_config(page_title='Secure Checkout', layout='wide')
@@ -21,13 +22,11 @@ def transition_page():
         <style>
             .st-emotion-cache-10434yk{
                 margin-left:60px;
-                margin-right:-50px;
                 border-color: rgb(93, 63, 211) rgb(230, 230, 250) rgb(230, 230, 250) !important;
             }
 
             .st-emotion-cache-inkacd{
                 margin-left:60px;
-                margin-right:-50px;
                 border-color: rgb(93, 63, 211) rgb(230, 230, 250) rgb(230, 230, 250) !important;
             }
 
@@ -373,12 +372,6 @@ def docunent_upload_page():
         margin-bottom: -70px !important;
     }
 
-    ## TODO: make sure that this doesnt break the flow
-    .st-emotion-cache-1on073z .e1b2p2ww5{
-        display:none !important;
-        margin-top: -70px !important;
-    }
-
     .st-emotion-cache-16idsys p{
         font-size: 18px;
         margin-left:10px;
@@ -410,9 +403,6 @@ def docunent_upload_page():
 
     cr_doc_file = st.file_uploader("Trade License", type=["pdf"])
     if cr_doc_file:
-        st.session_state.checkout_step = 3
-        st.success("Completed ✅")
-
         ## document extraction and save step
         pdf_text = extract_text_from_pdf(cr_doc_file)
         translated_pdf_text1 = translate_arabic_to_english(pdf_text)
@@ -421,6 +411,7 @@ def docunent_upload_page():
         ocr_result = smart_ocr_on_cr_doc(translated_pdf_text1, translated_pdf_text2)
         st.session_state['gsheet_data']['CR_DATA'] = json.dumps(ocr_result)
 
+        uploaded_pdf_content = cr_doc_file.read()
         file_name = cr_doc_file.name
         file_id = upload_to_drive(uploaded_pdf_content, file_name)
         pdf_file_url = f"https://drive.google.com/uc?id={file_id}"
@@ -434,17 +425,17 @@ def docunent_upload_page():
         else:
             st.session_state['gsheet_data']['CR_DATA_WATHQ'] = ''
 
+        st.success("Completed ✅")
         # st.experimental_rerun()
 
     st.markdown("<hr style='border: 0.5px solid lightgray; margin-top:-22px;'>", unsafe_allow_html=True)  # Add line break
 
     vat_doc_file = st.file_uploader("VAT Certificate", type=["pdf"])
     if vat_doc_file:
-        st.session_state.checkout_step = 4
-        st.success("Completed ✅")
-
         pdf_text = extract_text_from_pdf(vat_doc_file)
+        print(f"\nPDF TEXT: {pdf_text}")
         ocr_result = extract_vat_zakat_details(pdf_text)
+        print(f"\nPDF TEXT: {ocr_result}")
         st.session_state['gsheet_data']['VAT_Data'] = json.dumps(ocr_result)
 
         uploaded_pdf_content = vat_doc_file.read()
@@ -452,13 +443,13 @@ def docunent_upload_page():
         file_id = upload_to_drive(uploaded_pdf_content, file_name)
         pdf_file_url = f"https://drive.google.com/uc?id={file_id}"
         st.session_state['gsheet_data']['VAT_PDF'] = pdf_file_url
-    
+        st.success("Completed ✅")
+
     st.markdown("<hr style='border: 0.5px solid lightgray; margin-top:-22px;'>", unsafe_allow_html=True)  # Add line break
 
     gosi_doc_file = st.file_uploader("Gosi Document", type=["pdf"])
     if gosi_doc_file:
         st.session_state.checkout_step = 5
-        st.success("Completed ✅")
 
         pdf_text = extract_text_from_pdf(gosi_doc_file)
         ocr_result = extract_business_gosi_data(pdf_text)
@@ -472,6 +463,8 @@ def docunent_upload_page():
 
         st.session_state['gsheet_data']['CUSTOMER_GOSI_Data'] = json.dumps(ocr_result)
         st.session_state['gsheet_data']['CUSTOMER_GOSI_Data'] = pdf_file_url
+
+        st.success("Completed ✅")
 
     st.markdown("<hr style='border: 0.5px solid lightgray; margin-top:-22px;'>", unsafe_allow_html=True)  # Add line break
 
@@ -500,8 +493,10 @@ def docunent_upload_page():
     # # Continue button
     # if st.session_state.checkout_step == 6:
     if st.button('Continue'):
+        print(f"step old: {st.session_state.checkout_step}")
         st.session_state.checkout_step = 7
-        st.rerun()
+        print(f"step: {st.session_state.checkout_step}")
+        st.experimental_rerun()
 
 
 if 'checkout_step' not in st.session_state:
@@ -681,7 +676,28 @@ def checkout_page():
         st.rerun()
 
 
+def generate_fake_traffic_data():
+    traffic_dates = pd.date_range(start="2023-01-01", end="2023-08-01", freq="MS")
+    traffic_data = [{"date": str(date), "traffic": random.uniform(1000, 1500)} for date in traffic_dates]
+    return traffic_data
+
+# Call this function to generate fake duration data
+def generate_fake_duration_data():
+    duration_dates = pd.date_range(start="2023-01-01", end="2023-08-01", freq="MS")
+    duration_data = [{"date": str(date), "average_visit_duration": f"{round(random.uniform(0, 30),2)}%"} for date in duration_dates]
+    return duration_data
+
+
+def save_data_to_sheet(url, timestamp, traffic_data, duration_data, sheet):
+    traffic_json = json.dumps(traffic_data)
+    duration_json = json.dumps(duration_data)
+    data = [url, timestamp, traffic_json, duration_json]
+    sheet.append_row(data)
+
+
 def add_website_and_bank_account():
+    print(f"\n\nchekcout step tracker: {st.session_state.checkout_step}")
+
     html = """
         <html>
             <head>
@@ -762,7 +778,60 @@ def add_website_and_bank_account():
     st.markdown(html, unsafe_allow_html=True)
 
     company_url = st.text_input("Company Website: ", placeholder="Eg. https://nymcard.com")
+    st.session_state['gsheet_data']['Company_Url'] = company_url
+
+    traffic_data = generate_fake_traffic_data()
+    duration_data = generate_fake_duration_data()
+    timestamp = str(datetime.now())
+    scope = ["https://spreadsheets.google.com/feeds", "https://www.googleapis.com/auth/spreadsheets", "https://www.googleapis.com/auth/drive.file", "https://www.googleapis.com/auth/drive"]
+    creds = ServiceAccountCredentials.from_json_keyfile_dict(GDRIVE_CREDS, scope)
+    client = gspread.authorize(creds)
+    sheet = client.open("streamlit_data").worksheet('similar_web_data')
+    save_data_to_sheet(company_url, timestamp, traffic_data, duration_data, sheet)
+
+    scrapes = {}
+    sentiments = {}
+
+    ig_post_list = [
+        "Visa And NymCard Launch Plug & Play End-To-End Issuance Platform To Help #Fintech swiftly launch payment credentials as part of Visa’ Ready To Launch (VRTL) program Read more 🌐 : https://technologyplus.pk/2023/08/28/visa-and-nymcard-launch-plug-play-end-to-end-issuance-platform-to-help-fintech/ Follow on FB 👍 : https://lnkd.in/diKN5pSG . . . . . . . . . . Visa NymCard #Visa #NymCard Umar S. Khan Omar Onsi #BusinessAdministration #education #educationalcontent #educationconsultant #petrol_price_in_Pakistan #today_petrol_rate_in_pakistan_2023 #diesel_price_in_Pakistan",
+        "Explore NymCard’s Dubai office, a perfect reflection of their innovative and ambitious nature. The contemporary design promotes collaboration and creativity, while sustainable materials and natural light enhance well-being. Located in a prestigious location, this inspiring workspace embodies NymCard’s dedication to revolutionising the fintech industry. Photocredits: @chrisgoldstraw #JTCPLDesigns_HTSInteriors #OfficeDesigners #UAEArchitecture #UAEDesigners #Design #JTCPLDesigns #OfficeDesign #JTCPL_interiors #Modern #OfficeInteriors #WorkPlace #OfficeDecor #Minimal #Bespokelnteriors #InteriorDetails #InteriorForInspo #InteriorDesire #NymCard #ModernRetro #Finance #DubaiOffice",
+        "The new office of NymCard is a testament to the company's commitment to innovation and excellence. The workspace provides a practical and inspiring environment that encourages collaboration and productivity. Attention to detail is evident in every aspect, from the layout to the materials used. This office reflects NymCard’s values and vision, focusing on both functionality and aesthetics. Overall, it's a workspace that truly embodies the brand's identity. Photocredits: @chrisgoldstraw #JTCPLDesigns_HTSInteriors #OfficeDesigners #UAEArchitecture #UAEDesigners #Design #JTCPLDesigns #OfficeDesign #JTCPL_interiors #Modern #OfficeInteriors #WorkPlace #OfficeDecor #Minimal #Bespokelnteriors #InteriorDetails #InteriorForInspo #InteriorDesire #NymCard #ModernRetro #Finance #DubaiOffice",
+        "Step into NymCard’s Dubai office, featuring distinct areas for meetings, collaboration, and focus. The modern crisp white open ceiling is complemented by retro cork cladding motifs and pastel stretched fabric panels that also serve as acoustic treatments. The space seamlessly blends aesthetics and functionality, providing an ideal workspace for the team. Photocredits: @chrisgoldstraw #JTCPLDesigns_HTSInteriors #OfficeDesigners #UAEArchitecture #UAEDesigners #Design #JTCPLDesigns #OfficeDesign #JTCPL_interiors #Modern #OfficeInteriors #WorkPlace #OfficeDecor #Minimal #Bespokelnteriors #InteriorDetails #InteriorForInspo #InteriorDesire #NymCard #ModernRetro #Finance #DubaiOffice",
+        "@nymcard Acquires @spotiime To Offer BNPL-in-a-Box For Banks and Financial Institutions NymCard, the leading payments infrastructure provider in the MENA region, has completed the acquisition of Spotii, a prominent Buy Now Pay Later (BNPL) Fintech operating in key markets including KSA, UAE, and Bahrain. #nymcard #spotii #bnpl #fintechs #financialservices #financialinclusion #bankingnews #bankingindustry #digitaltransformation #digitalpayment #servicesasabusiness #digitalplatform #dailynewspk #news",
+        "Visa And NymCard Launch Plug & Play End-To-End Issuance Platform To Help #Fintech swiftly launch payment credentials as part of Visa’ Ready To Launch (VRTL) program Read more 🌐 : https://technologyplus.pk/2023/08/28/visa-and-nymcard-launch-plug-play-end-to-end-issuance-platform-to-help-fintech/ Follow on FB 👍 : https://lnkd.in/diKN5pSG . . . . . . . . . . Visa NymCard #Visa #NymCard Umar S. Khan Omar Onsi #BusinessAdministration #education #educationalcontent #educationconsultant #petrol_price_in_Pakistan #today_petrol_rate_in_pakistan_2023 #diesel_price_in_Pakistan",
+        "Dollar East Exchange Company (Private) Limited and United Bank Limited (UBL) recently signed a Memorandum of Understanding (MOU). Read more 🌐 : https://technologyplus.pk/2023/09/01/ubl-and-dollar-east-exchange-extend-their-strategic-partnership/ Follow on FB 👍 : https://lnkd.in/diKN5pSG . . . . . . . . . . UBL - United Bank Limited Dollar East Exchange Company #fintech #partnership #collaboration #reallife #transactional #growth #DigiKhata #KuudnaPakistan #Fintech #FintechNews #Visa #NymCard #BusinessAdministration #education #educationalcontent #educationconsultant #petrol_price_in_Pakistan #today_petrol_rate_in_pakistan_2023 #diesel_price_in_Pakistan",
+        "The goal was to create a workspace that fosters creativity, productivity, and embodies the NymCard brand ethos. The result is a workspace featuring bespoke niches and curves that enhance collaboration and efficiency in designated activity zones. Photocredits: @chrisgoldstraw #JTCPLDesigns_HTSInteriors #OfficeDesigners #UAEArchitecture #UAEDesigners #Design #JTCPLDesigns #OfficeDesign #JTCPL_interiors #Modern #OfficeInteriors #WorkPlace #OfficeDecor #Minimal #Bespokelnteriors #InteriorDetails #InteriorForInspo #InteriorDesire #NymCard #ModernRetro #Finance #DubaiOffice",
+        "NymCard’s Dubai office: where innovation meets inspiration. The space reflects the brand's creative identity with pastel highlights, layered design, and distinct areas for various activities. It's the perfect workspace for one of the UAE's fastest-growing fintech companies to celebrate success. Photocredits: @chrisgoldstraw #JTCPLDesigns_HTSInteriors #OfficeDesigners #UAEArchitecture #UAEDesigners #Design #JTCPLDesigns #OfficeDesign #JTCPL_interiors #Modern #OfficeInteriors #WorkPlace #OfficeDecor #Minimal #Bespokelnteriors #InteriorDetails #InteriorForInspo #InteriorDesire #NymCard #ModernRetro #Finance #DubaiOffice"
+    ]
+
+    tweet_list = [
+        "NymCard joins Visa’s Ready To Launch program https://t.co/HTzaaIAbZE \n@Visa \n#pakistanbanks\n#creditcardsinpakistan",
+        "#Dubai @Visa @VisaNews #digitalpayments #Visa #VisaReadyToLaunch #VRTL #fintech #NymCard #seamless #payment @NymCard #bank @BCWGlobal \n\nhttps://t.co/Z0nR6WDL4U",
+        "We're thrilled to announce that we're Golden Sponsors of Seamless KSA, coming up on the 4th - 5th of Sept! Come meet our team and discover how NymCard can help banks and financial institutions fast-track digital transformation.\n#SeamlessKSA #bankingasaservice #saudiarabia https://t.co/YDzimiH8Dw",
+        "We’re excited to announce @NymCard as Seamless Saudi Arabia Gold Sponsor 🎉 \n\nFind them at stand D52 on 4 - 5 September on the #SeamlessKSA expo floor! Have you got your free expo ticket yet? \n\nRegister now and we’ll see you there: https://t.co/gxLbQestA8 https://t.co/fTVUl5ckLP",
+        "🤖 We asked ChatGPT for the most imaginative use cases for Buy-Now-Pay-Later (BNPL) and here's what it revealed! \n\nLearn about NymCard's white-label BNPL: https://t.co/teGSEYQSrG\n\n#BNPL #FinancialInnovation #NymCard #FinancialFreedom #UAE52 #TodayForTomorrow #paymentsmadesimple https://t.co/AGJk36JC6o",
+        "BNPL Report: June 19 – China BNPL boom, retail #BNPL merchant tips, NymCard grabs Spotti, Sipay buys Sileon, credit reports, Klarna donations tool, Singapore regs, Affirm investment appeal? #fintech #banking https://t.co/cws8LZXwGV https://t.co/oscDDqv3WR"
+    ]
+
+    google_reviews_list = ["", "", ""]
     
+    ig_post_list = ig_post_list[:3]
+    tweet_list = tweet_list[:3]
+
+    max_len = max(len(tweet_list), len(ig_post_list), len(google_reviews_list))
+    
+    tweet_list.extend([''] * (max_len - len(tweet_list)))
+    ig_post_list.extend([''] * (max_len - len(ig_post_list)))
+    google_reviews_list.extend([''] * (max_len - len(google_reviews_list)))
+
+    scrapes['Twitter'] = '\n'.join(tweet_list)
+    scrapes['Instagram'] = '\n'.jlind(ig_post_list)
+    scrapes['Google'] = ''
+    st.session_state['gsheet_data']['Social_Check'] = json.dumps(scrapes)
+
+    sentiments = {"Twitter": 0.70, "Instagram": 0.80, "Google": 0.60, "Average": 0.70}
+    st.session_state['gsheet_data']['Sentiments'] = json.dumps(sentiments)
+
     custom_css = """
     <style>
     .st-emotion-cache-1gulkj5{
@@ -770,12 +839,6 @@ def add_website_and_bank_account():
         margin-bottom: -70px !important;
         border: 1px solid lightgray;
         margin-top: -60px;
-    }
-
-    ## TODO: make sure that this doesnt break the flow
-    .st-emotion-cache-1on073z .e1b2p2ww5{
-        display:none !important;
-        margin-top: -70px !important;
     }
 
     .st-emotion-cache-16idsys p{
@@ -830,7 +893,7 @@ def add_website_and_bank_account():
     bank_doc_file = st.file_uploader("Upload Bank Statement", type=["pdf"])
     if bank_doc_file:
         print(f"checkout_step: {st.session_state.checkout_step}")
-        st.success("Completed ✅")
+        
         uploaded_pdf_content = bank_doc_file.read()
         file_name = bank_doc_file.name  # Get the file name
         file_id = upload_to_drive(uploaded_pdf_content, file_name)
@@ -841,6 +904,7 @@ def add_website_and_bank_account():
         st.session_state['gsheet_data']['Expense_Data'] = json.dumps(expense_data)
         print(f"\n\n4th: {st.session_state['gsheet_data']}\n")
         data = pd.DataFrame(expense_data)
+        st.success("Completed ✅")
 
     st.markdown("""
         <style>
@@ -953,7 +1017,9 @@ def nafath_check():
     ## TODO: nafath code
 
     company_address = st.text_input("Company Adress: ", placeholder="Eg. Khaled bin waleed street, Jeddah")
-    
+    address_dict = {"user_address": "al salam tecom tower, al sufouh, dubai internet city", "google_address": "Al Salam Tecom Tower - Al Sufouh - Dubai Internet City - Dubai - United Arab Emirates"}
+    st.session_state['gsheet_data']['Address'] = json.dumps(address_dict)
+
     custom_css = """
     <style>
     .st-emotion-cache-1gulkj5{
@@ -961,12 +1027,6 @@ def nafath_check():
         margin-bottom: -70px !important;
         border: 1px solid lightgray;
         margin-top: -60px;
-    }
-
-    ## TODO: make sure that this doesnt break the flow
-    .st-emotion-cache-1on073z .e1b2p2ww5{
-        display:none !important;
-        margin-top: -70px !important;
     }
 
     .st-emotion-cache-16idsys p{
@@ -1018,9 +1078,21 @@ def nafath_check():
 
     st.markdown("<hr style='border: 0.5px solid lightgray; margin-top:5px; margin-bottom:5px;'>", unsafe_allow_html=True)  # Add line break
 
-    bank_doc_file = st.file_uploader("Upload Iqama ID", type=["pdf"])
-    if bank_doc_file:
-        pass
+    id_data_file = st.file_uploader("Upload Iqama ID", type=["pdf"])
+    if id_data_file:
+        image_id_urls = []
+
+        uploaded_id_content = id_data_file.read()
+        file_name = id_data_file.name  # Get the file name
+        file_id = upload_to_drive(uploaded_id_content, file_name)
+        file_url = f"https://drive.google.com/uc?id={file_id}"
+        image_id_urls.append(file_url)
+        id_image_combined = ', '.join(image_id_urls)
+
+        id_data = {"Name": "M ZOUHER JADID", "DOB": "1985/10/24", "ID Number": "2325873335"}
+
+        st.session_state['gsheet_data']['ID_Data'] = id_data
+        st.session_state['gsheet_data']['ID_Image'] = id_image_combined
     ###################
 
     st.markdown("""
@@ -1515,6 +1587,13 @@ def add_repayment():
 
 
 def application_submitted():
+    creds = ServiceAccountCredentials.from_json_keyfile_dict(GDRIVE_CREDS, SCOPE)
+    client = gspread.authorize(creds)
+    gsheet = client.open("streamlit_data").worksheet('flow_data')
+    # print(st.session_state['gsheet_data'])
+    gsheet.append_row(list(st.session_state['gsheet_data'].values()), value_input_option='USER_ENTERED', insert_data_option='INSERT_ROWS', table_range="A1")
+    st.session_state['gsheet_data'] = {}
+
     html = """
         <html>
             <head>
