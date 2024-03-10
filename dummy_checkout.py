@@ -966,7 +966,7 @@ def nafath_check():
                         color: #333;
                         margin-left:-10px;
                         margin-bottom: 30px;
-                        font-size: 27px;
+                        font-size: 24px;
                     }
                     input[type=text], input[type=password] {
                         width: 100%;
