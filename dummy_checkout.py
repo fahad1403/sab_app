@@ -404,11 +404,12 @@ def docunent_upload_page():
     cr_doc_file = st.file_uploader("Trade License", type=["pdf"])
     if cr_doc_file:
         ## document extraction and save step
-        pdf_text = extract_text_from_pdf(cr_doc_file)
-        translated_pdf_text1 = translate_arabic_to_english(pdf_text)
-        translated_pdf_text2 = gcloud_translate(pdf_text)
+        # pdf_text = extract_text_from_pdf(cr_doc_file)
+        # translated_pdf_text1 = translate_arabic_to_english(pdf_text)
+        # translated_pdf_text2 = gcloud_translate(pdf_text)
         # st.write(translated_pdf_text2)
-        ocr_result = smart_ocr_on_cr_doc(translated_pdf_text1, translated_pdf_text2)
+        # ocr_result = smart_ocr_on_cr_doc(translated_pdf_text1, translated_pdf_text2)
+        ocr_result = {"cr_number": "1010767009", "business_name": "Nim Information Technology", "business_address": "", "business_owner_1": " | Omar Walid Ansi.. Ghaith Yafi ", "business_owner_2": "", "expiry_date_hijri": "05/17/1444", "location": "Riyadh"}
         st.session_state['gsheet_data']['CR_DATA'] = json.dumps(ocr_result)
 
         uploaded_pdf_content = cr_doc_file.read()
@@ -418,8 +419,10 @@ def docunent_upload_page():
         st.session_state['gsheet_data']['CR_PDF'] = pdf_file_url
 
         cr_number = ocr_result['cr_number']
-        raw_result, wathq_result = get_response_from_wathq(cr_number)
+        # raw_result, wathq_result = get_response_from_wathq(cr_number)
         
+        raw_result = {"crName": "\u0634\u0631\u0643\u0629 \u0646\u064a\u0645 \u0644\u062a\u0642\u0646\u064a\u0629 \u0627\u0644\u0645\u0639\u0644\u0648\u0645\u0627\u062a \u0634\u0631\u0643\u0629 \u0634\u062e\u0635 \u0648\u0627\u062d\u062f", "crNumber": 1010767009, "crEntityNumber": 7027101844, "issueDate": "1443/05/17", "expiryDate": "1447/05/17", "crMainNumber": null, "crMainEntityNumber": null, "parties": [{"name": "\u0634\u0631\u0643\u0629 \u0646\u064a\u0645 \u062a\u064a\u0643\u0646\u0648\u0644\u0648\u062c\u064a\u0632 \u0647\u0648\u0644\u062f\u064a\u0646\u062c \u0644\u064a\u0645\u062a\u062f", "birthDate": null, "sharesCount": 100, "gross": 100000, "identity": {"id": "3714000000", "type": "crno"}, "relation": {"id": 2, "name": "\u0634\u0640\u0640\u0631\u064a\u0643"}, "nationality": {"id": "AE", "name": "\u0625\u0645\u0627\u0631\u062a\u064a\u0647"}}, {"name": "\u0639\u0645\u0631 \u0648\u0644\u064a\u062f \u0627\u0646\u0633\u064a", "birthDate": "1978/04/11", "identity": {"id": "3931480000", "type": "passportno"}, "relation": {"id": 24, "name": "\u0645\u062f\u064a\u0631"}, "nationality": {"id": "LB", "name": "\u0644\u0628\u0646\u0640\u0640\u0627\u0646\u064a"}}, {"name": "\u0645\u0631\u064a\u0645 \u0639\u0628\u062f\u0627\u0644\u0644\u0637\u064a\u0641 \u0627\u0628\u0646 \u0639\u0628\u062f\u0627\u0644\u0644\u0647 \u0627\u0644\u062c\u0646\u0648\u0628\u064a", "birthDate": "1986/05/05", "identity": {"id": "1023635327", "type": "nid"}, "relation": {"id": 24, "name": "\u0645\u062f\u064a\u0631"}, "nationality": {"id": "SA", "name": "\u0633\u0639\u0648\u062f\u064a"}}], "businessType": {"id": "214", "name": "\u0630\u0627\u062a \u0645\u0633\u0626\u0648\u0644\u064a\u0629 \u0645\u062d\u062f\u0648\u062f\u0629 \u0645\u062e\u062a\u0644\u0637\u0629"}, "fiscalYear": null, "status": {"id": "active", "name": "\u0627\u0644\u0633\u062c\u0644 \u0627\u0644\u062a\u062c\u0627\u0631\u064a \u0642\u0627\u0626\u0645", "nameEn": "Active"}, "cancellation": null, "address": {"general": {"website": null, "address": "0000 \u0627\u0644\u0631\u064a\u0627\u0636 00000-0000 ", "email": null, "zipcode": "00000", "fax1": "0000000000", "telephone1": "0000000000", "telephone2": "", "postalBox1": "000000", "postalBox2": ""}, "national": {"buildingNumber": "0000", "additionalNumber": "0000", "streetName": null, "city": "\u0627\u0644\u0631\u064a\u0627\u0636", "zipcode": "00000", "unitNumber": null, "districtName": null}}, "isEcommerce": false, "urls": [], "location": {"id": "1010", "name": "\u0627\u0644\u0631\u064a\u0627\u0636"}, "company": {"period": 99, "startDate": "1443/05/17", "endDate": null}, "capital": {"paidAmount": 100000, "subscribedAmount": null, "announcedAmount": null, "share": {"sharePrice": 1000, "sharesCount": 100}}, "activities": {"description": null, "isic": [{"id": "620102", "name": "\u062a\u0635\u0645\u064a\u0645 \u0648\u0628\u0631\u0645\u062c\u0629 \u0627\u0644\u0628\u0631\u0645\u062c\u064a\u0627\u062a \u0627\u0644\u062e\u0627\u0635\u0629", "nameEn": "designing and programming special software"}]}}
+
         if raw_result:
             st.session_state['gsheet_data']['CR_DATA_WATHQ'] = json.dumps(raw_result)
         else:
@@ -432,10 +435,11 @@ def docunent_upload_page():
 
     vat_doc_file = st.file_uploader("VAT Certificate", type=["pdf"])
     if vat_doc_file:
-        pdf_text = extract_text_from_pdf(vat_doc_file)
-        print(f"\nPDF TEXT: {pdf_text}")
-        ocr_result = extract_vat_zakat_details(pdf_text)
-        print(f"\nPDF TEXT: {ocr_result}")
+        # pdf_text = extract_text_from_pdf(vat_doc_file)
+        # print(f"\nPDF TEXT: {pdf_text}")
+        # ocr_result = extract_vat_zakat_details(pdf_text)
+        # print(f"\nPDF TEXT: {ocr_result}")
+        ocr_result = {"vat_reg_date": "2021/01/09", "vat_exp_date": "2022/01/31", "vat_reg_number": "310834042600003", "cr_number": "1010666886", "tax_period": "Quarterly", "tax_payer_name": "\u0634\u0631\u0643\u0629 \u0633\u0628\u0648\u0646\u064a \u0627\u0644\u0639\u0631\u0628\u064a\u0629 \u0644\u062a\u0642\u0646\u064a\u0629 \u0627\u0644\u0645\u0639\u0644\u0648\u0645\u0627\u062a"}
         st.session_state['gsheet_data']['VAT_Data'] = json.dumps(ocr_result)
 
         uploaded_pdf_content = vat_doc_file.read()
@@ -451,8 +455,9 @@ def docunent_upload_page():
     if gosi_doc_file:
         st.session_state.checkout_step = 5
 
-        pdf_text = extract_text_from_pdf(gosi_doc_file)
-        ocr_result = extract_business_gosi_data(pdf_text)
+        # pdf_text = extract_text_from_pdf(gosi_doc_file)
+        # ocr_result = extract_business_gosi_data(pdf_text)
+        ocr_result = {"gosi_issue_date": "08/06/2020", "gosi_expiry_date": "07/07/2020", "cr_number": "1010252763", "company_name": "Equitive"}
         st.session_state['gsheet_data']['BUSINESS_GOSI_Data'] = json.dumps(ocr_result)
 
         uploaded_pdf_content = gosi_doc_file.read()
