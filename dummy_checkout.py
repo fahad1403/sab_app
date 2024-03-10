@@ -1344,7 +1344,7 @@ def show_split():
                         .container {
                             background-color: #fff;
                             border-radius: 10px;
-                            width: 300px;
+                            width: 260px;
                             margin: 0px auto;
                             padding: 10px;
                         }
