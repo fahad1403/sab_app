@@ -10,3 +10,9 @@ httpx==0.13.3
 persiantools==3.0.1
 google-cloud
 google-cloud-vision
+google-api-core==2.12.0
+google-api-python-client==2.103.0
+google-auth==2.23.2
+google-auth-httplib2==0.1.1
+google-auth-oauthlib==1.0.0
+google-cloud-core==2.3.3
