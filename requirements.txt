@@ -16,3 +16,4 @@ google-auth==2.23.2
 google-auth-httplib2==0.1.1
 google-auth-oauthlib==1.0.0
 google-cloud-core==2.3.3
+oauth2client
