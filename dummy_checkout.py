@@ -171,7 +171,7 @@ def signup_page():
                         font-size: 30px;
                     }
                     input[type=text], input[type=password] {
-                        width: 125%;
+                        width: 90%;
                         padding: 15px;
                         margin: 10px 0;
                         display: inline-block;
