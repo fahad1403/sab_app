@@ -1059,7 +1059,7 @@ def nafath_check():
             )
 
     if st.button('Login'):
-        st.session_state.checkout_step = 10
+        st.session_state.checkout_step = 9
         st.rerun()
     
     html_content = """
