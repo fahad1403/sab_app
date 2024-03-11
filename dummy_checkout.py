@@ -1949,10 +1949,10 @@ def show_order():
                     }
                     .logo {
                         text-align: left;
-                        margin-left:-10px;
+                        margin-left:-30px;
                         margin-bottom: 40px;
-                        width: 500px;
-                        height: 550px;
+                        width: 40px;
+                        height: 500px;
                     }
                 </style>
             </head>
@@ -1996,8 +1996,8 @@ def show_order():
 
 
 if st.session_state.checkout_step == 0:
-    # show_order()
-    checkout_page()
+    show_order()
+    # checkout_page()
     # add_website_and_bank_account()
 
 if st.session_state.checkout_step == 1:
