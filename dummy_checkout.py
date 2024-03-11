@@ -1853,7 +1853,7 @@ def application_submitted():
     client = gspread.authorize(creds)
     gsheet = client.open("streamlit_data").worksheet('flow_data')
     print(f"\n\nFINAL DATA: {st.session_state['gsheet_data']}\n\n")
-    gsheet.append_row(list(st.session_state['gsheet_data'].values()), value_input_option='USER_ENTERED', insert_data_option='INSERT_ROWS', table_range="A1")
+    # gsheet.append_row(list(st.session_state['gsheet_data'].values()), value_input_option='USER_ENTERED', insert_data_option='INSERT_ROWS', table_range="A1")
     st.session_state['gsheet_data'] = {}
 
     html = """
