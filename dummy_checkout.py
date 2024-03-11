@@ -1997,8 +1997,8 @@ def show_order():
 
 
 if st.session_state.checkout_step == 0:
-    show_order()
-    # checkout_page()
+    # show_order()
+    checkout_page()
     # add_website_and_bank_account()
 
 if st.session_state.checkout_step == 1:
