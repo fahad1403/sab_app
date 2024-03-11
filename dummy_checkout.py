@@ -1949,7 +1949,7 @@ def show_order():
                     }
                     .logo {
                         text-align: left;
-                        margin-left:-10px;
+                        margin-left:-25px;
                         margin-bottom: 10px;
                         margin-top:-70px;
                         width: 280px;
