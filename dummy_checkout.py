@@ -1951,7 +1951,7 @@ def show_order():
                         text-align: left;
                         margin-left:-30px;
                         margin-bottom: 40px;
-                        width: 350px;
+                        width: 310px;
                         height: 500px;
                     }
                 </style>
@@ -1978,7 +1978,7 @@ def show_order():
         display: flex;
         width: 100%;
         border: none;
-        margin-top: 10px;
+        margin-top: -40px;
         background-color: #e53e3e;
         color: white;
         padding: 14px 28px;
