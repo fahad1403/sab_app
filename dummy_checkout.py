@@ -1950,7 +1950,8 @@ def show_order():
                     .logo {
                         text-align: left;
                         margin-left:-30px;
-                        margin-bottom: 40px;
+                        margin-bottom: 10px;
+                        margin-top:-40px;
                         width: 310px;
                         height: 500px;
                     }
