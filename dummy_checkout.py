@@ -1028,7 +1028,7 @@ def nafath_check():
                 <p style="font-weight:light; font-size:16px; color:#333; margin-bottom:-5px;">Username / National id</p>
                 <input type="text" class="card-input" placeholder="" />
                 <p style="font-weight:light; font-size:16px; color:#333; margin-bottom:-5px;">Password</p>
-                <input type="text" class="card-input" placeholder="" />
+                <input type="password" class="card-input" placeholder="" />
             </div>
         </body>
         </html>
