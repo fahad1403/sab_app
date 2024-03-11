@@ -899,10 +899,10 @@ def add_website_and_bank_account():
         width:120px;
     }
     .st-emotion-cache-1uixxvy{
-        margin-top:15px;
+        margin-top:17px;
     }
     .st-emotion-cache-vskyf7{
-        margin-top:7px;
+        margin-top:8px;
     }
     </style>
     """
