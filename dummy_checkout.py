@@ -1943,7 +1943,7 @@ def show_order():
                     .container {
                         background-color: #fff;
                         border-radius: 10px;
-                        width: 300px;
+                        width: 250px;
                         margin: 0px auto;
                         padding: 10px;
                     }
@@ -1951,7 +1951,7 @@ def show_order():
                         text-align: left;
                         margin-left:-30px;
                         margin-bottom: 40px;
-                        width: 400px;
+                        width: 350px;
                         height: 500px;
                     }
                 </style>
