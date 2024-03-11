@@ -1951,7 +1951,7 @@ def show_order():
                         text-align: left;
                         margin-left:-30px;
                         margin-bottom: 40px;
-                        width: 40px;
+                        width: 400px;
                         height: 500px;
                     }
                 </style>
