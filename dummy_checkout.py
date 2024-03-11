@@ -1978,7 +1978,7 @@ def show_order():
         display: flex;
         width: 100%;
         border: none;
-        margin-top: 50px;
+        margin-top: 10px;
         background-color: #e53e3e;
         color: white;
         padding: 14px 28px;
