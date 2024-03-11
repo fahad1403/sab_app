@@ -1751,6 +1751,7 @@ def add_repayment():
             .card-details div {
                 width: 48%;
             }
+            
         </style>
         </head>
         <body>
@@ -1784,7 +1785,7 @@ def add_repayment():
         display: flex;
         width: 100%;
         border: none;
-        margin-top: 150px;
+        margin-top: 100px;
         background-color: #e53e3e;
         color: white;
         padding: 14px 28px;
@@ -1795,7 +1796,23 @@ def add_repayment():
         </style>
         """,unsafe_allow_html=True
         )
+
+    st.markdown("""
+                <style>
+                    .st-emotion-cache-1h9usn1{
+                margin-top:-80px;
+                margin-bottom:75px;
+            }
+                </style>
+        """,unsafe_allow_html=True
+        )
     
+    with st.expander("SAB bank account"):
+        st.write("link you bank account")
+
+    with st.expander("POS direct settlement"):
+        st.write("continuew with POS direct settlement")
+
     if st.button('Continue'):
         st.session_state.checkout_step = 11
         st.rerun()
